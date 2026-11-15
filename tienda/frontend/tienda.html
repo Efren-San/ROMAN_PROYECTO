@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tienda - Catálogo</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <h1>🛍️ Mi Tienda</h1>
+    <nav>
+      <a href="tienda.html" class="active">Catálogo</a>
+      <a href="pedidos.html">Mis pedidos</a>
+      <a href="admin.html" id="nav-admin" style="display:none">Admin</a>
+      <span id="user-info"></span>
+      <button onclick="logout()" class="btn-logout">Salir</button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="filters">
+      <input id="search" type="text" placeholder="🔍 Buscar producto..."
+             oninput="renderProductos()">
+      <select id="categoria" onchange="renderProductos()">
+        <option value="">Todas las categorías</option>
+      </select>
+    </section>
+
+    <section id="productos" class="grid"></section>
+
+    <aside id="carrito-panel" class="carrito-panel">
+      <h2>🛒 Carrito <span id="badge-count" class="badge">0</span></h2>
+      <div id="carrito-items"></div>
+      <div class="carrito-total">
+        <strong>Total: <span id="carrito-total">$0.00</span></strong>
+      </div>
+      <button onclick="realizarPedido()" class="btn-primary btn-block">
+        Realizar pedido
+      </button>
+      <button onclick="vaciarCarrito()" class="btn-secondary btn-block">
+        Vaciar carrito
+      </button>
+    </aside>
+  </main>
+
+  <script src="api.js"></script>
+  <script src="tienda.js"></script>
+</body>
+</html>

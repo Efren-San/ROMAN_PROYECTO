@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tienda - Pedidos</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <h1>📋 Pedidos</h1>
+    <nav>
+      <a href="tienda.html">Catálogo</a>
+      <a href="pedidos.html" class="active">Pedidos</a>
+      <a href="admin.html" id="nav-admin" style="display:none">Admin</a>
+      <span id="user-info"></span>
+      <button onclick="logout()" class="btn-logout">Salir</button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2 id="titulo-pedidos">Mis pedidos</h2>
+      <div id="lista-pedidos"></div>
+    </section>
+  </main>
+
+  <script src="api.js"></script>
+  <script src="pedidos.js"></script>
+</body>
+</html>

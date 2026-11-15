@@ -1,34 +1,56 @@
 const router = require('express').Router();
-const db = require('../db');
+const pool = require('../db');
 const { verificarToken, soloAdmin } = require('../middleware/auth');
 
-// Listar (público)
-router.get('/', (req, res) => {
-  res.json(db.prepare('SELECT * FROM productos').all());
+// GET /api/productos  (público)
+router.get('/', async (req, res) => {
+  try {
+    const r = await pool.query('SELECT * FROM productos ORDER BY id');
+    res.json(r.rows);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
 });
 
-// Crear (admin)
-router.post('/', verificarToken, soloAdmin, (req, res) => {
+// POST /api/productos  (admin)
+router.post('/', verificarToken, soloAdmin, async (req, res) => {
   const { nombre, descripcion, precio, stock, categoria } = req.body;
-  const info = db.prepare(
-    'INSERT INTO productos (nombre,descripcion,precio,stock,categoria) VALUES (?,?,?,?,?)'
-  ).run(nombre, descripcion, precio, stock, categoria);
-  res.json({ id: info.lastInsertRowid });
+  try {
+    const r = await pool.query(
+      `INSERT INTO productos (nombre, descripcion, precio, stock, categoria)
+       VALUES ($1, $2, $3, $4, $5) RETURNING id`,
+      [nombre, descripcion, precio, stock, categoria]
+    );
+    res.json({ id: r.rows[0].id });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
 });
 
-// Actualizar (admin)
-router.put('/:id', verificarToken, soloAdmin, (req, res) => {
+// PUT /api/productos/:id  (admin)
+router.put('/:id', verificarToken, soloAdmin, async (req, res) => {
   const { nombre, descripcion, precio, stock, categoria } = req.body;
-  db.prepare(
-    'UPDATE productos SET nombre=?,descripcion=?,precio=?,stock=?,categoria=? WHERE id=?'
-  ).run(nombre, descripcion, precio, stock, categoria, req.params.id);
-  res.json({ ok: true });
+  try {
+    await pool.query(
+      `UPDATE productos
+       SET nombre=$1, descripcion=$2, precio=$3, stock=$4, categoria=$5
+       WHERE id=$6`,
+      [nombre, descripcion, precio, stock, categoria, req.params.id]
+    );
+    res.json({ ok: true });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
 });
 
-// Eliminar (admin)
-router.delete('/:id', verificarToken, soloAdmin, (req, res) => {
-  db.prepare('DELETE FROM productos WHERE id=?').run(req.params.id);
-  res.json({ ok: true });
+// DELETE /api/productos/:id  (admin)
+router.delete('/:id', verificarToken, soloAdmin, async (req, res) => {
+  try {
+    await pool.query('DELETE FROM productos WHERE id=$1', [req.params.id]);
+    res.json({ ok: true });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
 });
 
 module.exports = router;

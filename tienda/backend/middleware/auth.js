@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const SECRET = 'clave_secreta_tienda';
+const SECRET = process.env.JWT_SECRET;
 
 function verificarToken(req, res, next) {
   const header = req.headers['authorization'];
@@ -19,4 +19,4 @@ function soloAdmin(req, res, next) {
   next();
 }
 
-module.exports = { verificarToken, soloAdmin, SECRET };
+module.exports = { verificarToken, soloAdmin };

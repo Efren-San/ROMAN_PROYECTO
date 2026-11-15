@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tienda - Panel Admin</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <h1>⚙️ Panel Administración</h1>
+    <nav>
+      <a href="tienda.html">Catálogo</a>
+      <a href="admin.html" class="active">Admin</a>
+      <a href="pedidos.html">Pedidos</a>
+      <span id="user-info"></span>
+      <button onclick="logout()" class="btn-logout">Salir</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Formulario agregar / editar producto -->
+    <section class="card">
+      <h2 id="form-title">➕ Agregar producto</h2>
+      <form id="form-producto" onsubmit="event.preventDefault(); guardarProducto();"
+            class="form-grid">
+        <input type="hidden" id="p-id">
+        <input id="p-nombre" type="text" placeholder="Nombre" required>
+        <input id="p-desc" type="text" placeholder="Descripción">
+        <input id="p-precio" type="number" step="0.01" min="0"
+               placeholder="Precio" required>
+        <input id="p-stock" type="number" min="0" placeholder="Stock" required>
+        <input id="p-categoria" type="text" placeholder="Categoría">
+        <div class="form-actions">
+          <button type="submit" class="btn-primary">Guardar</button>
+          <button type="button" onclick="limpiarFormulario()"
+                  class="btn-secondary">Cancelar</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Tabla de productos -->
+    <section class="card">
+      <h2>📦 Productos registrados</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>ID</th><th>Nombre</th><th>Descripción</th>
+            <th>Categoría</th><th>Precio</th><th>Stock</th><th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="tabla-productos"></tbody>
+      </table>
+    </section>
+  </main>
+
+  <script src="api.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>

@@ -1,9 +1,23 @@
-const Database = require('better-sqlite3');
-const fs = require('fs');
-const db = new Database('tienda.db');
+require('dotenv').config();
+const { Pool } = require('pg');
 
-// Ejecutar esquema si no existe
-const schema = fs.readFileSync('./schema.sql', 'utf8');
-db.exec(schema);
+const pool = new Pool({
+  host:     process.env.DB_HOST,
+  port:     process.env.DB_PORT,
+  user:     process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+});
 
-module.exports = db;
+// Prueba de conexión al arrancar
+pool.connect()
+  .then(client => {
+    console.log('✅ Conectado a PostgreSQL');
+    client.release();
+  })
+  .catch(err => {
+    console.error('❌ Error de conexión:', err.message);
+    process.exit(1);
+  });
+
+module.exports = pool;

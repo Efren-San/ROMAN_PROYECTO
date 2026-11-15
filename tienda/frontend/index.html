@@ -2,14 +2,39 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Tienda</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tienda - Iniciar sesión</title>
   <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-  <h1 id="titulo">Tienda</h1>
-  <div id="auth"></div>
-  <div id="productos"></div>
-  <div id="carrito"></div>
-  <script src="app.js"></script>
+<body class="auth-page">
+  <div class="auth-container">
+    <h1>🛍️ Mi Tienda</h1>
+    <p class="subtitle">Sistema de control de tienda</p>
+
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('login')">Iniciar sesión</button>
+      <button class="tab" onclick="switchTab('registro')">Registrarse</button>
+    </div>
+
+    <!-- Formulario Login -->
+    <form id="form-login" class="form" onsubmit="event.preventDefault(); login();">
+      <input id="login-email" type="email" placeholder="Email" required>
+      <input id="login-pass" type="password" placeholder="Contraseña" required>
+      <button type="submit">Entrar</button>
+    </form>
+
+    <!-- Formulario Registro -->
+    <form id="form-registro" class="form hidden" onsubmit="event.preventDefault(); registro();">
+      <input id="reg-nombre" type="text" placeholder="Nombre completo" required>
+      <input id="reg-email" type="email" placeholder="Email" required>
+      <input id="reg-pass" type="password" placeholder="Contraseña (mín. 6)" minlength="6" required>
+      <button type="submit">Crear cuenta</button>
+    </form>
+
+    <p id="msg" class="msg"></p>
+  </div>
+
+  <script src="api.js"></script>
+  <script src="login.js"></script>
 </body>
 </html>
