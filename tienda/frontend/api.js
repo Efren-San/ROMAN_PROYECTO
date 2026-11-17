@@ -1,4 +1,4 @@
-const API = 'http://localhost:3000/api';
+const API = 'http://192.168.1.73:3000/api';
 
 // Verifica que haya sesión; si no, redirige a login
 function requireAuth() {
